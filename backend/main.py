@@ -75,6 +75,29 @@ async def login(login_data: LoginRequest):
 
 # ✔️ נקודת קצה לשאלות
 @app.post("/api/query")
+@app.post("/api/query")
+async def handle_user_query(user_query: QueryRequest):
+    query_string = user_query.query
+    print(f"Received user query: {query_string}")
+
+    try:
+        # שליחת השאלה ל-FastMCP לקבלת תגובה מהכלים שהגדרת
+        response = await mcp.chat(query_string)
+        print(f"FastMCP response: {response}")
+
+        return JSONResponse(
+            content={
+                "query": query_string,
+                "response": response,
+                "status": "success"
+            },
+            status_code=200
+        )
+    except Exception as e:
+        print(f"Error processing query: {e}")
+        raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
+
+'''
 async def handle_user_query(user_query: QueryRequest):
     query_string = user_query.query
     print(f"Received user query: {query_string}")
@@ -93,7 +116,7 @@ async def handle_user_query(user_query: QueryRequest):
     except Exception as e:
         print(f"Error processing query: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
-
+'''
 # להרצה מקומית
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
