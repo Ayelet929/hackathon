@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Login from './Login'; // אם יש לך קובץ Login.jsx
 import HomePage from './HomePage'; // אם יש לך קובץ Chat.jsx
 import ChatPage from './ChatPage'
+import FastMCPChat from "./Mcp";
 const App = () => {
   return (
       <Router>
@@ -11,6 +12,8 @@ const App = () => {
             <Route path="/login" element={ <Login />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/chat" element={<ChatPage />} />
+            <Route path="/chat2" element={<FastMCPChat />} />
+
         </Routes>
     </Router>
   );

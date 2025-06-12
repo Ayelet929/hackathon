@@ -11,10 +11,10 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/login', {
+      const res = await fetch('http://localhost:8000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({username, password }),
       });
 
       const data = await res.json();
@@ -33,7 +33,6 @@ const Login = () => {
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>התחברות</h2>
-
         <label htmlFor="username">שם משתמש:</label>
         <input
           id="username"
