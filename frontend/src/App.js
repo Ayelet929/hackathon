@@ -11,7 +11,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={ <Login />} />
             <Route path="/homePage" element={<HomePage />} />
-            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/chat" element={<FastMCPChat />} />
             <Route path="/chat2" element={<FastMCPChat />} />
 
         </Routes>
