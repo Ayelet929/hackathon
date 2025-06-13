@@ -9,7 +9,7 @@ import google.generativeai as genai
 
 # חיבור ל-Supabase
 supabase_url: str = "https://vkvibzhdbdtilxjufgxx.supabase.co"
-supabase_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrdmliemhkYmR0aWx4anVmZ3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2NzIxOTgsImV4cCI6MjA2NTI0ODE5OH0.AuNY0XaM5EKzBINOVR_DPXj0WUYhhRxhzyStYGjilLQ"
+supabase_key "eyJhbGciOiJIUzI1NiIsIn...... to complete ": str =
 supabase = create_client(supabase_url, supabase_key)
 
 # אפליקציה FastAPI
@@ -36,7 +36,7 @@ class QueryRequest(BaseModel):
 # פונקציה לקריאה ל-Gemini (לא משתמשת ב־ENV אלא מפתח קשיח)
 def ask_gemini_rel(prompt: str) -> str:
     try:
-        genai.configure(api_key="AIzaSyDWiaqm-MKsOYslIhYn_EM_DdlqWc6kL5k")
+        genai.configure(api_key="AIzaS.......to complete ")
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(
             f"אתה מומחה לזוגיות. שאלו אותך: {prompt}. תן תשובה קצרה וממוקדת."
