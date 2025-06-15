@@ -132,7 +132,7 @@ export default function HomePage() {
             onClick={handleStartChat}
             className="mt-2 w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 rounded-xl hover:from-pink-600 hover:to-purple-700 transition"
           >
-            התחילו שיחה עכשיו
+            התחילו שיחה עם שלומי עכשיו
           </button>
 
           <div className="flex items-center justify-center gap-2 mt-3 text-sm text-gray-500">

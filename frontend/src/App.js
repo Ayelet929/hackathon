@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState } from 'react';
-import Login from './Login'; // אם יש לך קובץ Login.jsx
-import HomePage from './HomePage'; // אם יש לך קובץ Chat.jsx
-import ChatPage from './ChatPage'
+import Login from './Login'; //  Login.jsx
+import HomePage from './HomePage'; //  Chat.jsx
 import FastMCPChat from "./Mcp";
 const App = () => {
   return (
@@ -11,7 +9,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={ <Login />} />
             <Route path="/homePage" element={<HomePage />} />
-            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/chat" element={<FastMCPChat />} />
             <Route path="/chat2" element={<FastMCPChat />} />
 
         </Routes>
