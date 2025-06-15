@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState } from 'react';
 import Login from './Login'; //  Login.jsx
 import HomePage from './HomePage'; //  Chat.jsx
-import ChatPage from './ChatPage'
 import FastMCPChat from "./Mcp";
 const App = () => {
   return (
