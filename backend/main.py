@@ -7,12 +7,12 @@ from fastmcp import FastMCP
 import uvicorn
 import google.generativeai as genai
 
-# חיבור ל-Supabase
+#   connect to -Supabase
 supabase_url: str = "https://vkvibzhdbdtilxjufgxx.supabase.co"
 supabase_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrdmliemhkYmR0aWx4anVmZ3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2NzIxOTgsImV4cCI6MjA2NTI0ODE5OH0.AuNY0XaM5EKzBINOVR_DPXj0WUYhhRxhzyStYGjilLQ"
 supabase = create_client(supabase_url, supabase_key)
 
-# אפליקציה FastAPI
+#  FastAPI
 app = FastAPI()
 
 app.add_middleware(
@@ -25,7 +25,7 @@ app.add_middleware(
 
 mcp = FastMCP("relationship_bot")
 
-# מודלים ל־POST
+# modelim for POST
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -33,7 +33,7 @@ class LoginRequest(BaseModel):
 class QueryRequest(BaseModel):
     query: str
 
-# פונקציה לקריאה ל-Gemini (לא משתמשת ב־ENV אלא מפתח קשיח)
+# call func to GEMINI
 def ask_gemini_rel(prompt: str) -> str:
     try:
         genai.configure(api_key="AIzaSyDWiaqm-MKsOYslIhYn_EM_DdlqWc6kL5k")
@@ -49,7 +49,7 @@ def ask_gemini_rel(prompt: str) -> str:
         print(f"שגיאה בקריאה ל-Gemini: {e}")
         return f"שגיאה בקריאה ל-Gemini: {e}"
 
-# ✔️ נקודת קצה ללוגין
+# ✔️ endpoint for login
 @app.post("/api/login")
 async def login(login_data: LoginRequest):
     username = login_data.username
@@ -73,7 +73,7 @@ async def login(login_data: LoginRequest):
         print(f"Error during login: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה פנימית בשרת: {e}")
 
-# ✔️ נקודת קצה לשאלות
+#  endpoint questions
 @app.post("/api/query")
 async def handle_user_query(user_query: QueryRequest):
     query_string = user_query.query
@@ -94,6 +94,6 @@ async def handle_user_query(user_query: QueryRequest):
         print(f"Error processing query: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
 
-# להרצה מקומית
+# location
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

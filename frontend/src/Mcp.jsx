@@ -42,7 +42,7 @@ export default function FastMCPChat() {
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">FastMCP Chat</h1>
+      <h1 className="text-2xl font-bold mb-4">שלומי</h1>
 
       <div className="border rounded p-4 h-96 overflow-y-scroll mb-4">
         {messages.map((msg, i) => (
