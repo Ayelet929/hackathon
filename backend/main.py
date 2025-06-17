@@ -7,6 +7,7 @@ from fastmcp import FastMCP
 import uvicorn
 import google.generativeai as genai
 
+
 #   connect to -Supabase
 supabase_url: str = "https://vkvibzhdbdtilxjufgxx.supabase.co"
 supabase_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrdmliemhkYmR0aWx4anVmZ3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2NzIxOTgsImV4cCI6MjA2NTI0ODE5OH0.AuNY0XaM5EKzBINOVR_DPXj0WUYhhRxhzyStYGjilLQ"
@@ -29,6 +30,13 @@ mcp = FastMCP("relationship_bot")
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class UpdateAnswers(BaseModel):
+    username: str
+    a: str = None
+    b: str = None
+    c: str = None
+    d: str = None
 
 class QueryRequest(BaseModel):
     query: str
@@ -93,6 +101,26 @@ async def handle_user_query(user_query: QueryRequest):
     except Exception as e:
         print(f"Error processing query: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
+@app.post("/api/update")
+async def save_answers(update_data: UpdateAnswers):
+    try:
+        response = supabase.table("update").update({
+            "a": update_data.a,
+            "b": update_data.b,
+            "c": update_data.c,
+            "d": update_data.d
+        }).eq("id", update_data.username).execute()
+
+        return JSONResponse(
+            content={"status": "success", "data": response.data},
+            status_code=200
+        )
+
+    except Exception as e:
+        print(f"שגיאה בשמירת תשובות: {e}")
+        raise HTTPException(status_code=500, detail=f"שגיאה בשמירת תשובות: {e}")
+
+
 
 # location
 if __name__ == "__main__":

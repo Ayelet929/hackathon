@@ -153,6 +153,7 @@ export default function HomePage() {
 
           <button
             className="bg-white border border-pink-200 rounded-xl p-5 flex flex-col items-center gap-3 hover:bg-pink-50 transition"
+            onClick={() => navigate("/QuestionsPage")} // navigate to the questionnaire page
             aria-label="עדכון השאלון"
           >
             <Settings className="h-7 w-7 text-pink-600" />

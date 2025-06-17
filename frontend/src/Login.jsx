@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Login.css'; // אפשרי - אם תרצה להוסיף עיצוב חיצוני
+import './Login.css';
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -19,6 +19,7 @@ const Login = () => {
 
       const data = await res.json();
       if (res.status === 200) {
+          localStorage.setItem("username", username);
         navigate("/homePage")
       } else {
         setErrorMessage(data.message || 'שגיאה בהתחברות');
