@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
-  const navigate = useNavigate();
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:8000/api/login', {
+      const res = await fetch('http://localhost:8000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({username, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
       if (res.status === 200) {
-          localStorage.setItem("username", username);
-        navigate("/homePage")
+        localStorage.setItem('username', username);
+        navigate('/QuestionsPage');
       } else {
-        setErrorMessage(data.message || 'שגיאה בהתחברות');
+        setErrorMessage(data.detail || 'שגיאה ביצירת משתמש');
       }
     } catch (err) {
-      console.log('Login failed', err);
+      console.error('Register failed:', err);
       setErrorMessage('שגיאה בשרת');
     }
   };
 
   return (
     <div className="login-container">
-      <form onSubmit={handleLogin} className="login-form">
-        <h2>התחברות</h2>
+      <form onSubmit={handleRegister} className="login-form">
+        <h2>צור חשבון</h2>
         <label htmlFor="username">שם משתמש:</label>
         <input
           id="username"
@@ -52,23 +52,12 @@ const Login = () => {
           required
         />
 
-   {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-    <button type="submit">התחבר</button>
-
-    <p className="register-link">
-      אין לכם חשבון?{" "}
-      <span
-        style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
-        onClick={() => navigate('/register')}
-      >
-        הירשמו כאן
-      </span>
-    </p>
-
+        <button type="submit">צור חשבון והמשך לשאלון</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;

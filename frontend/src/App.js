@@ -3,6 +3,8 @@ import Login from './Login'; //  Login.jsx
 import HomePage from './HomePage'; //  Chat.jsx
 import FastMCPChat from "./Mcp";
 import QuestionsPage from "./QuestionsPage"
+import Register from './Register';
+
 const App = () => {
   return (
       <Router>
@@ -13,6 +15,7 @@ const App = () => {
             <Route path="/chat" element={<FastMCPChat />} />
             <Route path="/chat2" element={<FastMCPChat />} />
             <Route path="/QuestionsPage" element={<QuestionsPage />} />
+            <Route path="/register" element={<Register />} />
 
         </Routes>
     </Router>

@@ -31,6 +31,10 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
+class User(BaseModel):
+    username: str
+    password: str
+
 class UpdateAnswers(BaseModel):
     username: str
     a: str = None
@@ -120,7 +124,29 @@ async def save_answers(update_data: UpdateAnswers):
         print(f"שגיאה בשמירת תשובות: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בשמירת תשובות: {e}")
 
+users_db = {}
+@app.post("/api/register")
+def register(user: User):
+    try:
+        existing = supabase.table("update").select("*").eq("id", user.username).execute()
+        if existing.data:
+            raise HTTPException(status_code=400, detail="שם המשתמש כבר קיים")
 
+        result = supabase.table("update").insert({
+            "id": user.username.strip(),
+            "password": user.password,
+            "a": None,
+            "b": None,
+            "c": None,
+            "d": None
+        }).execute()
+
+        print(f"הוספת משתמש חדשה: {result.data}")
+        return {"message": "המשתמש נוצר בהצלחה"}
+
+    except Exception as e:
+        print(f"שגיאה בהרשמה: {e}")
+        raise HTTPException(status_code=500, detail=f"שגיאה בהרשמה: {e}")
 
 # location
 if __name__ == "__main__":
