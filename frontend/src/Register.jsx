@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import Header from './Header';
+
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -31,7 +34,11 @@ const Register = () => {
   };
 
   return (
+
     <div className="login-container">
+      <Header />
+
+
       <form onSubmit={handleRegister} className="login-form">
         <h2>צור חשבון</h2>
         <label htmlFor="username">שם משתמש:</label>
@@ -56,7 +63,9 @@ const Register = () => {
 
         <button type="submit">צור חשבון והמשך לשאלון</button>
       </form>
+
     </div>
+
   );
 };
 

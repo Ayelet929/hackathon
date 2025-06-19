@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
+import Header from "./Header";
+
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -30,7 +32,10 @@ const Login = () => {
     }
   };
 
-  return (
+   return (
+    <>
+      <Header />
+
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>התחברות</h2>
@@ -68,6 +73,7 @@ const Login = () => {
 
       </form>
     </div>
+    </>
   );
 };
 

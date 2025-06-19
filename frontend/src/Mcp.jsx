@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+import logo from './update.png'; // או './logo.svg' לפי שם הקובץ שלך
+
 
 export default function FastMCPChat() {
   const [messages, setMessages] = useState([]);
@@ -42,7 +44,11 @@ export default function FastMCPChat() {
 
   return (
     <div className="p-4 max-w-xl mx-auto">
+        <div className="w-full flex justify-end mb-6">
+  <img src={logo} alt="לוגו" className="h-28 w-auto mr-2" />
+</div>
       <h1 className="text-2xl font-bold mb-4">שלומי</h1>
+
 
       <div className="border rounded p-4 h-96 overflow-y-scroll mb-4">
         {messages.map((msg, i) => (

@@ -1,6 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import logo from "./update.png"; // אם הקובץ נקרא update.png
+
+
 import { useNavigate } from "react-router-dom"
 import {
   Heart,
@@ -65,6 +68,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto flex justify-between items-center px-6 py-4">
           <div className="flex items-center gap-5">
             <div className="h-12 w-12 rounded-full bg-pink-200 flex items-center justify-center text-pink-700">
+
               <User className="h-6 w-6" />
             </div>
             <div>
@@ -76,13 +80,14 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-
+<img src={logo} alt="לוגו" className="h-20 w-auto" />
           <button
             aria-label="הגדרות"
             className="text-gray-500 hover:text-gray-700 transition"
           >
             <Settings className="h-5 w-5" />
           </button>
+
         </div>
       </header>
 
