@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import logo from './logo.svg';
+import logo from './update.png';
 
 import { useNavigate } from "react-router-dom"
 import {

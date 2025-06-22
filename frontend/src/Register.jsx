@@ -62,7 +62,10 @@ const Register = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         <button type="submit">צור חשבון והמשך לשאלון</button>
-      </form>
+     <p className="text-gray-600 text-base mt-4 text-center">
+    הצטרפו לקהילה שלנו והתחילו את המסע
+  </p>
+</form>
 
     </div>
 
