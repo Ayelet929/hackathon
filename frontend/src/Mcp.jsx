@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import logo from './update.png'; // או './logo.svg' לפי שם הקובץ שלך
+import logo from './update.png';
 
 
 export default function FastMCPChat() {
