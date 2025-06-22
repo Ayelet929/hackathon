@@ -1,24 +1,35 @@
 import { useState } from 'react';
 import axios from 'axios';
-import logo from './update.png';
+import logo from './update.png'; // או './logo.svg' לפי שם הקובץ שלך
 
 
-export default function FastMCPChat() {
+export default function FastMCPChat( {username}) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    const userMessage = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    setLoading(true);
+
+ const sendMessage = async () => {
+  if (!input.trim()) return;
+
+  // בדיקה ודאית ששם המשתמש קיים לפני שליחה
+  if (!username) { // משתמשים ב-username שאנחנו מקבלים כ-prop
+    alert("שגיאה: שם המשתמש אינו זמין. אנא התחבר מחדש.");
+    setLoading(false);
+    return;
+  }
+
+  const userMessage = { role: 'user', content: input };
+  setMessages(prev => [...prev, userMessage]);
+  setInput("");
+  setLoading(true);
 
     try {
       const response = await axios.post(
         'http://localhost:8000/api/query',  // <-- Updated endpoint
-        { query: input },                   // <-- Payload matches FastAPI model
+        { query: input,
+            username: username
+        },                   // <-- Payload matches FastAPI model
         {
           headers: {
             'Content-Type': 'application/json',
@@ -27,20 +38,20 @@ export default function FastMCPChat() {
         }
       );
 
-      const serverMsg = response.data?.response ?? "[No response]";
-      const botMessage = { role: 'assistant', content: serverMsg };
-      setMessages(prev => [...prev, botMessage]);
+    const serverMsg = response.data?.response ?? "[No response]";
+    const botMessage = { role: 'assistant', content: serverMsg };
+    setMessages(prev => [...prev, botMessage]);
 
-    } catch (err) {
-      console.error(err);
-      setMessages(prev => [
-        ...prev,
-        { role: 'assistant', content: "[Error contacting server]" }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    console.error("שגיאה בשליחת הודעה לשרת:", err);
+    setMessages(prev => [
+      ...prev,
+      { role: 'assistant', content: "[שגיאה ביצירת קשר עם השרת]" }
+    ]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-4 max-w-xl mx-auto">

@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import logo from "./update.png"; // אם הקובץ נקרא update.png
-
+import logo from './logo.svg';
 
 import { useNavigate } from "react-router-dom"
 import {

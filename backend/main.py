@@ -44,15 +44,14 @@ class UpdateAnswers(BaseModel):
 
 class QueryRequest(BaseModel):
     query: str
+    username: str
 
 # call func to GEMINI
 def ask_gemini_rel(prompt: str) -> str:
     try:
         genai.configure(api_key="AIzaSyDWiaqm-MKsOYslIhYn_EM_DdlqWc6kL5k")
         model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(
-            f"אתה מומחה לזוגיות. שאלו אותך: {prompt}. תן תשובה קצרה וממוקדת."
-        )
+        response = model.generate_content(prompt)
         if response and hasattr(response, 'text'):
             return response.text.strip()
         else:
@@ -89,11 +88,47 @@ async def login(login_data: LoginRequest):
 @app.post("/api/query")
 async def handle_user_query(user_query: QueryRequest):
     query_string = user_query.query
-    print(f"Received user query: {query_string}")
+    username = user_query.username
+    print(f"Received user query: {query_string} from user: {username}")
 
+    user_data = None
+    # התחלת בלוק try אחד גדול שיטפל בכל הלוגיקה של הפונקציה
+    # זה כולל שליפה מ-Supabase, בניית הפרומפט וקריאה ל-Gemini.
     try:
-        gemini_response = ask_gemini_rel(query_string)
-        print(f"Received: {gemini_response}")
+        # 1. שליפת נתוני המשתמש מ-Supabase
+        # שימו לב: הבלוק הזה עכשיו נמצא בתוך ה-try הראשי של הפונקציה.
+        response = supabase.table('update').select('a, b, c, d').eq('id', username).execute()
+        if response.data and response.data[0]:
+            user_data = response.data[0]
+            print(f"User data from Supabase: {user_data}")
+        else:
+            print(f"No user data found for {username} in Supabase.")
+
+        # אין צורך ב-except פנימי כאן. אם יש שגיאה ב-Supabase,
+        # היא תיתפס על ידי ה-except הראשי למטה.
+        # אם הייתם רוצים לטפל בשגיאות Supabase באופן ספציפי ושונה,
+        # אז כן היה צריך try-except פנימי.
+
+        # 2. בניית הפרומפט המשולב עבור Gemini
+        full_prompt = f"אתה מומחה לזוגיות. שאלו אותך שאלה  : {query_string} תענה בצורה ממוקדת וקצרה , ניתן להשתמש במידע נוסף על המשתמש אם יש אבל לענות בצורה חכמה בלי שירגיש שאתה יודע את המידע  ין חובה להתייחס למידע אם הוא לא רלוונטי   "
+
+        if user_data:
+            # הוספת המידע על המשתמש לפרומפט, אם קיים ולא ריק
+            full_prompt += "להלן מידע נוסף על המשתמש: "
+            if user_data.get('a'):
+                full_prompt += f" :הקווים האדומים שלי הבהתנהגות בן או בת הזוג הם '{user_data['a']}'. "
+            if user_data.get('b'):
+                full_prompt += f"  :התחביבים שלי הם  '{user_data['b']}'. "
+            if user_data.get('c'):
+                full_prompt += f": הכי חשוב לי בזוגיות'{user_data['c']}'. "
+            if user_data.get('d'):
+                full_prompt += f" :עוזר לי להירגע אחרי ריב  '{user_data['d']}'. "
+
+        # 3. קריאה לפונקציית Gemini עם הפרומפט המורחב
+        gemini_response = ask_gemini_rel(full_prompt) # שלח את הפרומפט המורחב
+        print(f"Received Gemini response: {gemini_response}")
+
+        # חזרה של התגובה מה-endpoint
         return JSONResponse(
             content={
                 "query": query_string,
@@ -102,8 +137,10 @@ async def handle_user_query(user_query: QueryRequest):
             },
             status_code=200
         )
+
     except Exception as e:
-        print(f"Error processing query: {e}")
+        # זהו ה-except הראשי שיתפוס כל שגיאה שקורית בתוך ה-try בלוק
+        print(f"Error processing query or fetching data for user {username}: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
 @app.post("/api/update")
 async def save_answers(update_data: UpdateAnswers):

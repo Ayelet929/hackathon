@@ -1,5 +1,4 @@
-import update from "./update.png";
-
+import update from './logo.svg';
 export default function Header() {
   return (
     <header
