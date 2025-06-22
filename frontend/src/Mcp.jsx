@@ -60,7 +60,7 @@ export default function FastMCPChat({ username }) {
       <header className="bg-white/90 backdrop-blur-md border-b border-pink-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
-               <img src={logo} alt="לוגו" className="h-12 w-auto" />
+               <img src={logo} alt="לוגו" className="h-20 w-auto" />
             <div className="h-12 w-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex justify-center items-center text-white">
               <Bot className="h-6 w-6" />
             </div>
