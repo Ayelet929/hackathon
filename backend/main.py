@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client
 from pydantic import BaseModel
-from fastmcp import FastMCP
+#from fastmcp import FastMCP
 import uvicorn
 import google.generativeai as genai
 
