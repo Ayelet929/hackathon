@@ -6,7 +6,11 @@ The platform offers a secure space to chat, with features including a conversati
 ---
 
 ## 🧠 Features
-
+![App Screenshot](./images/loginPageImage.png) 
+![App Screenshot](./images/homePageImage.png) 
+![App Screenshot](./images/questionPageImage.png)
+![App Screenshot](./images/questionImage1.png) 
+![App Screenshot](./images/questionImage2.png) 
 - 🤖 Chatbot for thoughtful, guided conversations
 - 💾 Cloud database with Supabase
 - 🌐 Modern, responsive frontend built with React
@@ -36,6 +40,7 @@ The platform offers a secure space to chat, with features including a conversati
 cd backend
 pip install -r requirements.txt
 python app.py
+
 
 © 2025 Update – All rights reserved to the authors.
 
