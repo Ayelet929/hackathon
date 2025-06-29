@@ -36,3 +36,17 @@ The platform offers a secure space to chat, with features including a conversati
 cd backend
 pip install -r requirements.txt
 python app.py
+
+© 2025 Update – All rights reserved to the authors.
+
+Ayelet Benisty – github.com/Ayelet929
+
+Malka Haupt – github.com/malka00
+
+Ruth Kalimy – github.com/RutK100
+
+Sara Mager – github.com/saramager
+
+
+
+
