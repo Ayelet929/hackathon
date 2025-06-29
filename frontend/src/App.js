@@ -2,24 +2,23 @@ import React, { useState, useEffect } from 'react'; // <--- ודא שיש import
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import HomePage from './HomePage';
-import FastMCPChat from "./Mcp"; // שם הרכיב שלך FastMCPChat, אבל הקובץ Mcp.jsx
+import FastMCPChat from "./Mcp";
 import Register from './Register';
 import QuestionsPage from './QuestionsPage';
 
 
 const App = () => {
-  // <--- הוספה חדשה: מצב לשמירת שם המשתמש המחובר
   const [currentUser, setCurrentUser] = useState(null);
 
-  // <--- הוספה חדשה: שימוש ב-useEffect לשמירת המשתמש בין רענונים
+
   useEffect(() => {
     const storedUser = localStorage.getItem('username');
     if (storedUser) {
       setCurrentUser(storedUser);
     }
-  }, []); // ריצה רק פעם אחת בטעינת הרכיב
+  }, []);
 
-  // <--- הוספה חדשה: פונקציה שתקבל את שם המשתמש מ-Login.jsx
+
   const handleLoginSuccess = (username) => {
     setCurrentUser(username);
     localStorage.setItem('username', username);

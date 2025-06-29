@@ -6,13 +6,13 @@ from pydantic import BaseModel
 #from fastmcp import FastMCP
 import uvicorn
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
-
-#   connect to -Supabase
-supabase_url: str = "https://vkvibzhdbdtilxjufgxx.supabase.co"
-supabase_key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrdmliemhkYmR0aWx4anVmZ3h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk2NzIxOTgsImV4cCI6MjA2NTI0ODE5OH0.AuNY0XaM5EKzBINOVR_DPXj0WUYhhRxhzyStYGjilLQ"
+load_dotenv()
+supabase_url = os.getenv("API_SUPABASE_URL")
+supabase_key=os.getenv("API_SUPABASE_KEY")
 supabase = create_client(supabase_url, supabase_key)
-
 #  FastAPI
 app = FastAPI()
 
@@ -92,22 +92,15 @@ async def handle_user_query(user_query: QueryRequest):
     print(f"Received user query: {query_string} from user: {username}")
 
     user_data = None
-    # התחלת בלוק try אחד גדול שיטפל בכל הלוגיקה של הפונקציה
-    # זה כולל שליפה מ-Supabase, בניית הפרומפט וקריאה ל-Gemini.
+    # started one big try block to handle all the logic of the function
+    # this includes fetching from Supabase, building the prompt, and calling Gemini.
     try:
-        # 1. שליפת נתוני המשתמש מ-Supabase
-        # שימו לב: הבלוק הזה עכשיו נמצא בתוך ה-try הראשי של הפונקציה.
         response = supabase.table('update').select('a, b, c, d').eq('id', username).execute()
         if response.data and response.data[0]:
             user_data = response.data[0]
             print(f"User data from Supabase: {user_data}")
         else:
             print(f"No user data found for {username} in Supabase.")
-
-        # אין צורך ב-except פנימי כאן. אם יש שגיאה ב-Supabase,
-        # היא תיתפס על ידי ה-except הראשי למטה.
-        # אם הייתם רוצים לטפל בשגיאות Supabase באופן ספציפי ושונה,
-        # אז כן היה צריך try-except פנימי.
 
         full_prompt = (
             "אתה יועץ זוגי עם ניסיון של מעל 10 שנים. המטרה שלך היא לתת מענה ברור, רגשי, ומעשי לשאלות זוגיות. "
@@ -133,15 +126,14 @@ async def handle_user_query(user_query: QueryRequest):
         full_prompt += f"\n\nהשאלה: '{query_string}'"
         full_prompt += "\nענה בצורה ברורה, רגשית, ממוקדת – עם מסר אחד ברור או המלצה שאפשר לבצע בפועל."
 
-        # 2. בניית הפרומפט המשולב עבור Gemini
 
         full_prompt += f" זאת השאלה שנשאלה : {query_string} תענה בצורה ממוקדת וקצרה ,  "
 
-        # 3. קריאה לפונקציית Gemini עם הפרומפט המורחב
-        gemini_response = ask_gemini_rel(full_prompt) # שלח את הפרומפט המורחב
+
+        gemini_response = ask_gemini_rel(full_prompt)
         print(f"Received Gemini response: {gemini_response}")
 
-        # חזרה של התגובה מה-endpoint
+        # the returned response
         return JSONResponse(
             content={
                 "query": query_string,
@@ -152,7 +144,7 @@ async def handle_user_query(user_query: QueryRequest):
         )
 
     except Exception as e:
-        # זהו ה-except הראשי שיתפוס כל שגיאה שקורית בתוך ה-try בלוק
+        # this is the main except block that will catch any error that occurs inside the try block
         print(f"Error processing query or fetching data for user {username}: {e}")
         raise HTTPException(status_code=500, detail=f"שגיאה בעיבוד השאלה: {e}")
 @app.post("/api/update")
