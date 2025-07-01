@@ -5,23 +5,23 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 from google import genai
 
-# טעינת משתני סביבה מהקובץ .env
+
 load_dotenv()
 
-# הגדרת משתנים ל-Azure OpenAI
-# חשוב לוודא שמשתנים אלו מוגדרים בקובץ .env שלך
+# -Azure OpenAI
+#  .env 
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")  # חייב להסתיים ב־ /
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")  
 AZURE_OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-AZURE_OPENAI_API_VERSION = "2024-02-01" # ודאי שזו הגרסה הנכונה
+AZURE_OPENAI_API_VERSION = "2024-02-01" 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# וודא שכל המשתנים קיימים
+
 if not all([AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT]):
     print("שגיאה: חסרים משתני סביבה עבור Azure OpenAI. ודאי שקובץ .env מוגדר כראוי.")
     exit(1)
 
-# יצירת מופע MCP לבוט זוגיות
+
 mcp = FastMCP("relationship_bot")
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,7 +35,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # )
 
 
-# TOOL 1 - טיפ זוגי לפי נושא
+# TOOL 1 
 @mcp.tool()
 def relationship_tip(topic: str) -> str:
     tips = {
@@ -46,7 +46,7 @@ def relationship_tip(topic: str) -> str:
     }
     return tips.get(topic, "נושא חשוב! נסו לגשת אליו ברגישות ובסבלנות ❤️")
 
-# TOOL 2 - תגובה לרגש של אחד מבני הזוג
+# TOOL 2 
 @mcp.tool()
 def handle_feeling(feeling: str) -> str:
     feelings = {
@@ -57,12 +57,12 @@ def handle_feeling(feeling: str) -> str:
     }
     return feelings.get(feeling, "כל רגש הוא תקף. שיתוף פתוח עם בן/בת הזוג יכול לעזור מאוד.")
 
-# TOOL 3 - בדיקה יומית רגשית
+# TOOL 3 
 @mcp.tool()
 def daily_checkin(name: str) -> str:
     return f"{name}, איך את/ה מרגיש/ה היום לגבי הקשר שלכם? האם יש משהו שהיית רוצה לחזק או לשפר יחד? 🌱"
 
-# TOOL 4 - שליחת שאלה ל-Azure OpenAI
+# TOOL 4 -Azure OpenAI
 @mcp.tool()
 def ask_openai(prompt: str) -> str:
 
@@ -99,7 +99,7 @@ def ask_openai(prompt: str) -> str:
     except KeyError:
         return "שגיאה: מבנה תשובה לא צפוי מ-Azure OpenAI."
 
-    # TOOL 4 - שליחת שאלה ל-Azure OpenAI
+    # TOOL 4 -Azure OpenAI
 @mcp.tool()
 def ask_openaiRel(prompt: str) -> str:
 
@@ -149,8 +149,7 @@ def ask_openaiRel(prompt: str) -> str:
     except Exception as e:
         return f"שגיאה ב-Gemini: {e}"
 
-    # אם את רוצה להפעיל גם את Azure במקום/בנוסף:
-    # [הקוד של Azure OpenAI – אפשר לשלב אם צריך]
+
 
 
 @mcp.tool(
