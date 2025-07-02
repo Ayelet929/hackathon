@@ -49,7 +49,7 @@ class QueryRequest(BaseModel):
 # call func to GEMINI
 def ask_gemini_rel(prompt: str) -> str:
     try:
-        genai.configure(api_key="AIzaSyDWiaqm-MKsOYslIhYn_EM_DdlqWc6kL5k")
+        genai.configure(api_key="GEMINI_API_KEY")
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(prompt)
         if response and hasattr(response, 'text'):
