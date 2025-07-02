@@ -28,10 +28,10 @@ const App = () => {
     <Router>
       <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={ <Login onLoginSuccess={handleLoginSuccess} />} /> {/* <--- שינוי כאן: העבר את הפונקציה כ-prop */}
+          <Route path="/login" element={ <Login onLoginSuccess={handleLoginSuccess} />} />}
           <Route path="/homePage" element={<HomePage />} />
           <Route path="/chat" element={<FastMCPChat username={currentUser} />} />
-          <Route path="/chat2" element={<FastMCPChat username={currentUser} />} /> {/* גם כאן */}
+          <Route path="/chat2" element={<FastMCPChat username={currentUser} />} /> 
           <Route path="/register" element={<Register />} />
           <Route path="/QuestionsPage" element={<QuestionsPage />} />
 
