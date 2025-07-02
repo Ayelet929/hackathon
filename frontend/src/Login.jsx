@@ -3,8 +3,8 @@ import './Login.css';
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 
-// שינוי 1: הוסף onLoginSuccess כ-prop
-const Login = ({ onLoginSuccess }) => { // <--- שינוי כאן
+
+const Login = ({ onLoginSuccess }) => { 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,12 +21,11 @@ const Login = ({ onLoginSuccess }) => { // <--- שינוי כאן
 
       const data = await res.json();
       if (res.status === 200) {
-          // שינוי 2: קרא לפונקציה onLoginSuccess והעבר לה את שם המשתמש
-          if (onLoginSuccess) { // ודא שהפונקציה קיימת לפני הקריאה
-              onLoginSuccess(username); // <--- קריטי: מעבירים את שם המשתמש לרכיב ההורה (App.js)
+          if (onLoginSuccess) { 
+              onLoginSuccess(username); 
           }
-          localStorage.setItem("username", username); // עדיין כדאי לשמור ליתר ביטחון/שימור
-          navigate("/homePage"); // נווט לדף הבית כפי שאתה רוצה
+          localStorage.setItem("username", username); 
+          navigate("/homePage"); /
       } else {
         setErrorMessage(data.message || 'שגיאה בהתחברות');
       }
@@ -37,7 +36,6 @@ const Login = ({ onLoginSuccess }) => { // <--- שינוי כאן
   };
 
   return (
-    // ... שאר ה-JSX נשאר ללא שינוי בקובץ זה
     <>
       <Header />
       <div className="login-container">
