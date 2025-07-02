@@ -11,7 +11,7 @@ const questions = [
   { id: 3, question: "מה עוזר לך להירגע אחרי ריב?" },
 ]
 
-// מיפוי של id לעמודה המתאימה בטבלה
+
 const idToColumn = {
   1: "a",
   2: "b",
