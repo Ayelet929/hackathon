@@ -1,7 +1,7 @@
 # 💬 Update
 
 **Update** is a web application designed for couples to help improve their communication and deepen their relationship.
-The platform offers a secure space to chat, with features including a conversation bot and persistent storage via Supabase.
+The platform offers features and conversation bot.
 
 ---
 
@@ -22,9 +22,8 @@ The platform offers a secure space to chat, with features including a conversati
 ## 🛠️ Tech Stack
 
 - **Frontend:** React.js
-- **Backend:** Python (framework to be specified)
-- **Database:** Supabase (PostgreSQL)
-- **Hosting:** (You can specify if hosted on Vercel, Netlify, etc.)
+- **Backend:** Python 
+- **Database:** Supabase 
 
 ---
 
@@ -39,7 +38,7 @@ The platform offers a secure space to chat, with features including a conversati
 
 cd backend
 pip install -r requirements.txt
-python app.py
+python main.py
 
 
 © 2025 Update – All rights reserved to the authors.
